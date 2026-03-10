@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chá de Bebê da Lorena</title>
+    
+    <!-- Google Fonts: Merriweather (Serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'baby-lilac': '#E6D7FF', // Lilás claro
+                        'baby-lilac-dark': '#B388EB', // Lilás mais forte para botões
+                        'baby-yellow': '#FFF9D2', // Amarelo claro
+                        'baby-yellow-dark': '#FBE58F',
+                    },
+                    fontFamily: {
+                        serif: ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Merriweather', serif;
+            background-color: #FAFAFA;
+        }
+
+        /* Animações suaves */
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Esconder barra de rolagem no seletor de fraldas se necessário em telas muito pequenas */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Loader CSS */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #B388EB;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm py-4 px-6 sticky top-0 z-40">
+        <div class="max-w-4xl mx-auto flex justify-center items-center">
+            <!-- Logo (Placeholder) -->
+            <div class="flex items-center gap-2 text-baby-lilac-dark">
+                <i data-lucide="baby"></i>
+                <h1 class="text-xl font-bold tracking-wide">Lorena</h1>
+            </div>
+        </div>
+    </nav>
+
+    <!-- VIEWS CONTAINER -->
+    <div id="app" class="flex-grow flex flex-col">
+        
+        <!-- ==================== LANDING PAGE VIEW ==================== -->
+        <main id="view-home" class="flex-grow flex flex-col items-center p-6 max-w-lg mx-auto w-full fade-in">
+            
+            <!-- Ilustração Placeholder -->
+            <div class="w-full h-64 bg-baby-yellow rounded-2xl flex flex-col items-center justify-center mb-8 shadow-inner border border-yellow-100 mt-4 overflow-hidden relative">
+                <i data-lucide="star" class="text-baby-yellow-dark w-16 h-16 mb-2 absolute top-8 left-8 opacity-50"></i>
+                <i data-lucide="moon" class="text-baby-yellow-dark w-12 h-12 mb-2 absolute bottom-8 right-12 opacity-50"></i>
+                <i data-lucide="heart" class="text-baby-lilac-dark w-20 h-20 mb-3 z-10"></i>
+                <span class="text-gray-500 text-sm z-10">[ Ilustração Principal Aqui ]</span>
+            </div>
+
+            <div class="text-center w-full">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">Chá de Bebê</h2>
+                <h3 class="text-2xl font-bold text-baby-lilac-dark mb-6">da Lorena</h3>
+                
+                <p class="text-gray-600 mb-8 leading-relaxed">
+                    Estamos muito felizes em compartilhar esse momento tão especial com você! Junte-se a nós para celebrar a chegada da nossa pequena.
+                </p>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8 w-full">
+                    <div class="flex items-center justify-center gap-3 mb-4">
+                        <i data-lucide="calendar" class="text-baby-lilac-dark"></i>
+                        <span class="font-bold">Sábado, 15 de Outubro</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-3 mb-4">
+                        <i data-lucide="clock" class="text-baby-lilac-dark"></i>
+                        <span class="font-bold">A partir das 15h</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-3">
+                        <i data-lucide="map-pin" class="text-baby-lilac-dark"></i>
+                        <span class="font-bold">Salão de Festas Residencial</span>
+                    </div>
+                </div>
+
+                <button onclick="openModal()" class="w-full bg-baby-lilac-dark text-white font-bold text-lg py-4 rounded-full shadow-lg hover:bg-purple-500 transition-colors transform hover:scale-[1.02] active:scale-95 duration-200">
+                    Confirmar Presença
+                </button>
+            </div>
+            
+            <!-- Link escondido para admin no footer -->
+            <button onclick="promptAdmin()" class="mt-12 text-xs text-gray-300 hover:text-gray-400">Acesso Admin</button>
+        </main>
+
+        <!-- ==================== ADMIN VIEW ==================== -->
+        <main id="view-admin" class="hidden flex-grow flex-col items-center p-6 max-w-4xl mx-auto w-full fade-in">
+            <div class="w-full flex justify-between items-center mb-8 mt-4">
+                <h2 class="text-2xl font-bold text-gray-800">Painel de Controle</h2>
+                <button onclick="navigate('home')" class="text-baby-lilac-dark font-bold hover:underline flex items-center gap-2">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar
+                </button>
+            </div>
+
+            <!-- Resumo de Convidados (NOVO) -->
+            <div class="w-full bg-white p-6 rounded-2xl shadow-sm border border-baby-lilac mb-6 flex flex-col items-center">
+                <h3 class="text-lg font-bold text-gray-700 mb-2 text-center">Total de Pessoas Confirmadas</h3>
+                <p class="text-5xl font-black text-baby-lilac-dark" id="admin-total-pessoas">-</p>
+                <p class="text-xs text-gray-500 mt-2 font-bold uppercase tracking-wider">Convidados + Acompanhantes</p>
+            </div>
+
+            <!-- Resumo de Fraldas -->
+            <div class="w-full bg-white p-6 rounded-2xl shadow-sm border border-baby-lilac mb-8">
+                <h3 class="text-lg font-bold text-gray-700 mb-4 text-center">Resumo de Fraldas</h3>
+                <div class="grid grid-cols-5 gap-2 sm:gap-4" id="admin-summary">
+                    <!-- Preenchido via JS -->
+                    <div class="col-span-5 text-center text-gray-500 py-4"><span class="loader"></span> Carregando resumo...</div>
+                </div>
+            </div>
+
+            <!-- Tabela de Convidados -->
+            <div class="w-full bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[600px]">
+                        <thead>
+                            <tr class="bg-baby-yellow text-gray-700">
+                                <th class="p-4 font-bold border-b border-yellow-200">Data da Confirmação</th>
+                                <th class="p-4 font-bold border-b border-yellow-200">Nome Completo</th>
+                                <th class="p-4 font-bold border-b border-yellow-200 text-center">Nascimento</th>
+                                <th class="p-4 font-bold border-b border-yellow-200 text-center">Tamanho</th>
+                                <th class="p-4 font-bold border-b border-yellow-200 text-center">Acompanhantes</th>
+                                <th class="p-4 font-bold border-b border-yellow-200 text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-table-body">
+                            <!-- Preenchido via JS -->
+                            <tr>
+                                <td colspan="6" class="text-center text-gray-500 py-8"><span class="loader"></span> Buscando dados na planilha...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- ==================== MODAL RSVP ==================== -->
+    <div id="rsvp-modal" class="fixed inset-0 bg-black/40 z-50 hidden flex-col justify-end sm:justify-center items-center pb-0 sm:p-6 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+        
+        <div class="bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] slide-up transform transition-transform duration-300 translate-y-full sm:translate-y-0" id="modal-content">
+            
+            <!-- Header Modal -->
+            <div class="bg-baby-yellow px-6 py-4 flex justify-between items-center relative">
+                <h3 class="font-bold text-lg text-gray-800">Sua Presença</h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800 bg-white/50 rounded-full p-1 transition-colors">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            
+            <!-- Aviso Superior -->
+            <div class="bg-baby-lilac/40 px-6 py-3 border-b border-baby-lilac text-sm text-gray-700 text-center flex items-center justify-center gap-2">
+                <i data-lucide="info" class="w-4 h-4 text-baby-lilac-dark"></i>
+                <span>Os acompanhantes estão especificados no convite enviado pelo Whatsapp.</span>
+            </div>
+
+            <!-- Formulário -->
+            <form id="rsvp-form" class="p-6 overflow-y-auto no-scrollbar" onsubmit="submitForm(event)">
+                
+                <div class="grid grid-cols-2 gap-4 mb-5">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Nome</label>
+                        <input type="text" id="nome" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-baby-lilac-dark focus:border-transparent transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Sobrenome</label>
+                        <input type="text" id="sobrenome" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-baby-lilac-dark focus:border-transparent transition-all">
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Aniversário (Dia e Mês)</label>
+                    <div class="flex gap-4">
+                        <select id="dia" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-baby-lilac-dark bg-white appearance-none">
+                            <option value="" disabled selected>Dia</option>
+                            <!-- Populado via JS -->
+                        </select>
+                        <select id="mes" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-baby-lilac-dark bg-white appearance-none">
+                            <option value="" disabled selected>Mês</option>
+                            <option value="01">Janeiro</option>
+                            <option value="02">Fevereiro</option>
+                            <option value="03">Março</option>
+                            <option value="04">Abril</option>
+                            <option value="05">Maio</option>
+                            <option value="06">Junho</option>
+                            <option value="07">Julho</option>
+                            <option value="08">Agosto</option>
+                            <option value="09">Setembro</option>
+                            <option value="10">Outubro</option>
+                            <option value="11">Novembro</option>
+                            <option value="12">Dezembro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <label class="block text-sm font-bold text-gray-700 mb-3 text-center">Tamanho da fralda a ser presenteada</label>
+                    <div class="flex justify-between gap-2">
+                        <!-- Botões de tamanho -->
+                        <button type="button" onclick="selectSize('RN')" id="btn-size-RN" class="size-btn flex-1 aspect-square rounded-xl border-2 border-gray-200 flex items-center justify-center font-bold text-gray-500 hover:border-baby-lilac-dark hover:text-baby-lilac-dark transition-colors">RN</button>
+                        <button type="button" onclick="selectSize('P')" id="btn-size-P" class="size-btn flex-1 aspect-square rounded-xl border-2 border-gray-200 flex items-center justify-center font-bold text-gray-500 hover:border-baby-lilac-dark hover:text-baby-lilac-dark transition-colors">P</button>
+                        <button type="button" onclick="selectSize('M')" id="btn-size-M" class="size-btn flex-1 aspect-square rounded-xl border-2 border-gray-200 flex items-center justify-center font-bold text-gray-500 hover:border-baby-lilac-dark hover:text-baby-lilac-dark transition-colors">M</button>
+                        <button type="button" onclick="selectSize('G')" id="btn-size-G" class="size-btn flex-1 aspect-square rounded-xl border-2 border-gray-200 flex items-center justify-center font-bold text-gray-500 hover:border-baby-lilac-dark hover:text-baby-lilac-dark transition-colors">G</button>
+                        <button type="button" onclick="selectSize('GG')" id="btn-size-GG" class="size-btn flex-1 aspect-square rounded-xl border-2 border-gray-200 flex items-center justify-center font-bold text-gray-500 hover:border-baby-lilac-dark hover:text-baby-lilac-dark transition-colors">GG</button>
+                    </div>
+                    <input type="hidden" id="tamanho_selecionado" required>
+                    <p id="size-error" class="text-red-500 text-xs text-center mt-2 hidden">Por favor, selecione um tamanho.</p>
+                </div>
+
+                <button type="submit" id="submit-btn" class="w-full bg-baby-lilac-dark text-white font-bold text-lg py-4 rounded-xl shadow-md hover:bg-purple-500 transition-colors flex justify-center items-center">
+                    <span>Confirmar Presença</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL DE AUTENTICAÇÃO ADMIN ==================== -->
+    <div id="auth-modal" class="fixed inset-0 bg-black/40 z-50 hidden flex-col justify-center items-center p-6 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+        <div class="bg-white w-full sm:max-w-sm rounded-3xl shadow-2xl overflow-hidden flex flex-col transform transition-transform duration-300 scale-95" id="auth-modal-content">
+            <div class="bg-baby-yellow px-6 py-4 flex justify-between items-center relative">
+                <h3 class="font-bold text-lg text-gray-800">Acesso Restrito</h3>
+                <button onclick="closeAuthModal()" class="text-gray-500 hover:text-gray-800 bg-white/50 rounded-full p-1 transition-colors">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <label class="block text-sm font-bold text-gray-700 mb-2">Senha de Administrador</label>
+                <input type="password" id="admin-password" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-baby-lilac-dark focus:border-transparent transition-all mb-4" onkeypress="if(event.key === 'Enter') checkAdminPassword()">
+                <button onclick="checkAdminPassword()" class="w-full bg-baby-lilac-dark text-white font-bold py-3 rounded-xl shadow hover:bg-purple-500 transition-colors">Acessar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL DE CONFIRMAÇÃO DE EXCLUSÃO ==================== -->
+    <div id="delete-modal" class="fixed inset-0 bg-black/40 z-50 hidden flex-col justify-center items-center p-6 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+        <div class="bg-white w-full sm:max-w-sm rounded-3xl shadow-2xl overflow-hidden flex flex-col transform transition-transform duration-300 scale-95" id="delete-modal-content">
+            <div class="bg-red-50 px-6 py-4 border-b border-red-100 flex items-center gap-3">
+                <i data-lucide="alert-triangle" class="text-red-500 w-6 h-6"></i>
+                <h3 class="font-bold text-lg text-red-800">Confirmar Exclusão</h3>
+            </div>
+            <div class="p-6">
+                <p class="text-gray-700 mb-6">Tem certeza que deseja remover esta confirmação de presença? Esta ação não pode ser desfeita.</p>
+                <div class="flex gap-3">
+                    <button onclick="closeDeleteModal()" class="flex-1 bg-gray-100 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-200 transition-colors">Cancelar</button>
+                    <button onclick="confirmDeleteUser()" class="flex-1 bg-red-500 text-white font-bold py-3 rounded-xl shadow hover:bg-red-600 transition-colors">Remover</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATION ==================== -->
+    <div id="toast-container" class="fixed top-5 left-1/2 transform -translate-x-1/2 z-[60] flex flex-col gap-2 w-full max-w-sm px-4 pointer-events-none">
+        <!-- Toasts inseridos via JS -->
+    </div>
+
+    <script>
+        // Inicializa ícones
+        lucide.createIcons();
+
+        // COLOQUE A URL DO SEU GOOGLE APPS SCRIPT AQUI APÓS PUBLICAR
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxoRZofmVbalMkZ2nGrpvHTWQEqNzYZ1LhxqS14E6ln1-lqwu8wsMRFZIfFW0T0QYg7gw/exec';
+
+        // --- LÓGICA DE NAVEGAÇÃO E AUTENTICAÇÃO ---
+        let isAdminAuthenticated = false;
+
+        function promptAdmin() {
+            const authModal = document.getElementById('auth-modal');
+            const authContent = document.getElementById('auth-modal-content');
+            authModal.classList.remove('hidden');
+            authModal.classList.add('flex');
+            document.getElementById('admin-password').value = '';
+            setTimeout(() => {
+                authModal.classList.remove('opacity-0');
+                authContent.classList.remove('scale-95');
+                document.getElementById('admin-password').focus();
+            }, 10);
+        }
+
+        function closeAuthModal() {
+            const authModal = document.getElementById('auth-modal');
+            const authContent = document.getElementById('auth-modal-content');
+            authModal.classList.add('opacity-0');
+            authContent.classList.add('scale-95');
+            setTimeout(() => {
+                authModal.classList.add('hidden');
+                authModal.classList.remove('flex');
+            }, 300);
+        }
+
+        function checkAdminPassword() {
+            const pwd = document.getElementById('admin-password').value;
+            // Senha ofuscada: array de charCodes deslocados + 5 (Esconde a senha real do código fonte)
+            const secret = [77, 57, 115, 115, 102, 109, 82, 53, 115, 121, 69, 115, 102];
+            const isMatch = pwd.length === secret.length && pwd.split('').every((c, i) => c.charCodeAt(0) + 5 === secret[i]);
+
+            if (isMatch) {
+                isAdminAuthenticated = true;
+                closeAuthModal();
+                navigate('admin');
+            } else {
+                showToast('Senha incorreta!', 'error');
+            }
+        }
+
+        function navigate(view) {
+            window.location.hash = view;
+            handleRoute();
+        }
+
+        function handleRoute() {
+            const hash = window.location.hash.replace('#', '') || 'home';
+            
+            if (hash === 'admin' && !isAdminAuthenticated) {
+                window.location.hash = 'home';
+                promptAdmin();
+                return;
+            }
+
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-home').classList.remove('flex');
+            document.getElementById('view-admin').classList.add('hidden');
+            document.getElementById('view-admin').classList.remove('flex');
+
+            if (hash === 'admin') {
+                document.getElementById('view-admin').classList.remove('hidden');
+                document.getElementById('view-admin').classList.add('flex');
+                loadAdminData();
+            } else {
+                document.getElementById('view-home').classList.remove('hidden');
+                document.getElementById('view-home').classList.add('flex');
+            }
+            window.scrollTo(0, 0);
+        }
+
+        window.addEventListener('hashchange', handleRoute);
+        // Executa ao carregar a página
+        handleRoute();
+
+        // --- LÓGICA DO MODAL ---
+        const modal = document.getElementById('rsvp-modal');
+        const modalContent = document.getElementById('modal-content');
+
+        function openModal() {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            // Pequeno delay para a animação de entrada funcionar
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('translate-y-full');
+            }, 10);
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.add('translate-y-full');
+            // Aguarda a animação terminar antes de esconder
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                resetForm();
+            }, 300);
+        }
+
+        // Fechar ao clicar fora
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Popular dias no select
+        const diaSelect = document.getElementById('dia');
+        for (let i = 1; i <= 31; i++) {
+            let option = document.createElement('option');
+            let val = i < 10 ? '0' + i : i;
+            option.value = val;
+            option.textContent = val;
+            diaSelect.appendChild(option);
+        }
+
+        // --- LÓGICA DE SELEÇÃO DE FRALDA ---
+        let selectedSize = '';
+        function selectSize(size) {
+            selectedSize = size;
+            document.getElementById('tamanho_selecionado').value = size;
+            document.getElementById('size-error').classList.add('hidden');
+
+            // Resetar estilos
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.classList.remove('bg-baby-lilac-dark', 'text-white', 'border-baby-lilac-dark');
+                btn.classList.add('border-gray-200', 'text-gray-500');
+            });
+
+            // Aplicar estilo ao selecionado
+            const activeBtn = document.getElementById(`btn-size-${size}`);
+            activeBtn.classList.remove('border-gray-200', 'text-gray-500');
+            activeBtn.classList.add('bg-baby-lilac-dark', 'text-white', 'border-baby-lilac-dark');
+        }
+
+        // --- SISTEMA DE TOAST (NOTIFICAÇÃO) ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const bgColor = type === 'success' ? 'bg-green-50' : 'bg-red-50';
+            const borderColor = type === 'success' ? 'border-green-200' : 'border-red-200';
+            const textColor = type === 'success' ? 'text-green-800' : 'text-red-800';
+            const icon = type === 'success' ? 'check-circle' : 'alert-circle';
+
+            toast.className = `flex items-center p-4 mb-2 rounded-2xl shadow-lg border ${bgColor} ${borderColor} ${textColor} transform transition-all duration-300 translate-y-[-100%] opacity-0 pointer-events-auto`;
+            toast.innerHTML = `
+                <i data-lucide="${icon}" class="w-5 h-5 mr-3"></i>
+                <span class="font-bold text-sm">${message}</span>
+            `;
+
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            // Animar entrada
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-[-100%]', 'opacity-0');
+            });
+
+            // Remover após 4 segundos
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'scale-95');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // --- SUBMISSÃO DO FORMULÁRIO ---
+        function resetForm() {
+            document.getElementById('rsvp-form').reset();
+            selectedSize = '';
+            document.getElementById('tamanho_selecionado').value = '';
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.classList.remove('bg-baby-lilac-dark', 'text-white', 'border-baby-lilac-dark');
+                btn.classList.add('border-gray-200', 'text-gray-500');
+            });
+            document.getElementById('size-error').classList.add('hidden');
+        }
+
+        async function submitForm(e) {
+            e.preventDefault();
+            
+            if (!selectedSize) {
+                document.getElementById('size-error').classList.remove('hidden');
+                return;
+            }
+
+            if (!APPS_SCRIPT_URL.startsWith('https://script.google.com/')) {
+                showToast("Erro: Configure a sua URL do Apps Script no código do site.", "error");
+                return;
+            }
+
+            const btn = document.getElementById('submit-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="loader"></span> Enviando...';
+            btn.disabled = true;
+            btn.classList.add('opacity-75');
+
+            const payload = {
+                nome: document.getElementById('nome').value.trim(),
+                sobrenome: document.getElementById('sobrenome').value.trim(),
+                dia: document.getElementById('dia').value,
+                mes: document.getElementById('mes').value,
+                tamanho: selectedSize
+            };
+
+            try {
+                // Usando text/plain para evitar bloqueio de CORS (Preflight) no envio do Javascript para o Apps Script
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    showToast('Presença confirmada com sucesso! Muito obrigado(a).', 'success');
+                    closeModal();
+                } else {
+                    showToast(result.message || 'Erro ao confirmar presença.', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Falha na comunicação. Tente novamente.', 'error');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                btn.classList.remove('opacity-75');
+            }
+        }
+
+        // --- LÓGICA DO ADMIN ---
+        const mesesNomes = {
+            "01": "Jan", "02": "Fev", "03": "Mar", "04": "Abr", "05": "Mai", "06": "Jun",
+            "07": "Jul", "08": "Ago", "09": "Set", "10": "Out", "11": "Nov", "12": "Dez"
+        };
+
+        async function loadAdminData() {
+            if (!APPS_SCRIPT_URL.startsWith('https://script.google.com/')) {
+                document.getElementById('admin-table-body').innerHTML = `<tr><td colspan="6" class="text-center text-red-500 py-8">Configure a URL do Apps Script primeiro.</td></tr>`;
+                document.getElementById('admin-summary').innerHTML = `<div class="col-span-5 text-center text-red-500 py-4">Configure a URL do Apps Script primeiro.</div>`;
+                document.getElementById('admin-total-pessoas').innerText = '-';
+                return;
+            }
+
+            try {
+                const response = await fetch(APPS_SCRIPT_URL);
+                const data = await response.json();
+                renderAdminData(data);
+            } catch (error) {
+                console.error("Erro ao carregar admin:", error);
+                document.getElementById('admin-table-body').innerHTML = `<tr><td colspan="6" class="text-center text-red-500 py-8">Erro ao buscar dados. Verifique o console.</td></tr>`;
+                document.getElementById('admin-summary').innerHTML = `<div class="col-span-5 text-center text-red-500 py-4">Erro ao buscar dados.</div>`;
+            }
+        }
+
+        function renderAdminData(data) {
+            const tableBody = document.getElementById('admin-table-body');
+            const summaryContainer = document.getElementById('admin-summary');
+            const totalPessoasContainer = document.getElementById('admin-total-pessoas');
+            
+            if (data.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="6" class="text-center text-gray-500 py-8">Nenhuma presença confirmada ainda.</td></tr>`;
+                summaryContainer.innerHTML = `<div class="col-span-5 text-center text-gray-500 py-4">Sem dados para resumir.</div>`;
+                totalPessoasContainer.innerText = '0';
+                return;
+            }
+
+            // Calculando totais
+            const counts = { 'RN': 0, 'P': 0, 'M': 0, 'G': 0, 'GG': 0 };
+            let totalPessoas = 0;
+            let htmlTable = '';
+
+            data.forEach(row => {
+                // Considerando os cabeçalhos da planilha: 'Data', 'Nome', 'Sobrenome', 'Dia', 'Mês', 'Tamanho', 'Acompanhantes'
+                const tamanho = row['Tamanho'] || row['tamanho'];
+                if (counts[tamanho] !== undefined) {
+                    counts[tamanho]++;
+                }
+
+                const acompanhantes = parseInt(row['Acompanhantes'] || 0, 10);
+                totalPessoas += 1 + acompanhantes; // 1 (Convidado) + qtd de Acompanhantes
+
+                const dataCompleta = new Date(row['Data'] || row['Carimbo de data/hora']);
+                const dataFormatada = isNaN(dataCompleta) ? '-' : dataCompleta.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute:'2-digit' });
+                
+                // Pegando a linha (rowIndex) para envio de remoção/atualização
+                const rowIndex = row['rowIndex'];
+
+                htmlTable += `
+                    <tr class="hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0">
+                        <td class="p-4 text-sm text-gray-500 whitespace-nowrap">${dataFormatada}</td>
+                        <td class="p-4 font-bold text-gray-800 whitespace-nowrap">${row['Nome']} ${row['Sobrenome']}</td>
+                        <td class="p-4 text-center text-gray-600">${row['Dia']}/${mesesNomes[row['Mês']] || row['Mês']}</td>
+                        <td class="p-4 text-center">
+                            <span class="inline-block bg-baby-lilac text-baby-lilac-dark font-bold px-3 py-1 rounded-lg text-sm">${tamanho}</span>
+                        </td>
+                        <td class="p-4 text-center">
+                            <input type="number" min="0" value="${acompanhantes}" onchange="updateCompanions(${rowIndex}, this.value)" 
+                                   class="w-16 border border-gray-300 rounded-lg px-2 py-1 text-center font-bold focus:outline-none focus:ring-2 focus:ring-baby-lilac-dark bg-white" title="Número de acompanhantes">
+                        </td>
+                        <td class="p-4 text-center">
+                            <button onclick="promptDelete(${rowIndex})" class="text-red-400 hover:text-red-600 transition-colors bg-red-50 hover:bg-red-100 p-2 rounded-lg" title="Remover convidado">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tableBody.innerHTML = htmlTable;
+            lucide.createIcons(); // Recarrega os ícones para os botões recém inseridos
+
+            // Renderizar Total de Pessoas
+            totalPessoasContainer.innerText = totalPessoas;
+
+            // Renderizar Resumo Fraldas
+            let htmlSummary = '';
+            const sizes = ['RN', 'P', 'M', 'G', 'GG'];
+            sizes.forEach(size => {
+                const qtd = counts[size];
+                htmlSummary += `
+                    <div class="bg-gray-50 rounded-xl p-3 flex flex-col items-center justify-center border border-gray-100">
+                        <span class="text-xs text-gray-500 font-bold mb-1">Tam ${size}</span>
+                        <span class="text-2xl font-black ${qtd > 0 ? 'text-baby-lilac-dark' : 'text-gray-300'}">${qtd}</span>
+                    </div>
+                `;
+            });
+            summaryContainer.innerHTML = htmlSummary;
+        }
+
+        // --- LÓGICA DE ATUALIZAR ACOMPANHANTES ---
+        async function updateCompanions(rowIndex, count) {
+            if (!rowIndex) return;
+
+            // Altera valor vazio para 0
+            if (count === '') count = 0;
+
+            showToast('Atualizando acompanhantes...', 'success');
+            
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'update_companions', rowIndex: rowIndex, count: parseInt(count, 10) })
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    // Atualiza a tabela silenciosamente para recalcular os totais
+                    loadAdminData(); 
+                } else {
+                    showToast(result.message || 'Erro ao atualizar.', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Falha na comunicação ao atualizar.', 'error');
+            }
+        }
+
+        // --- LÓGICA DE REMOVER USUÁRIO ---
+        let rowToDelete = null;
+
+        function promptDelete(rowIndex) {
+            if (!rowIndex) {
+                showToast("Erro: Linha não identificada. Verifique seu Apps Script.", "error");
+                return;
+            }
+            rowToDelete = rowIndex;
+            const modal = document.getElementById('delete-modal');
+            const content = document.getElementById('delete-modal-content');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeDeleteModal() {
+            const modal = document.getElementById('delete-modal');
+            const content = document.getElementById('delete-modal-content');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                rowToDelete = null;
+            }, 300);
+        }
+
+        async function confirmDeleteUser() {
+            if (!rowToDelete) return;
+            const rowIndex = rowToDelete;
+            closeDeleteModal();
+
+            showToast('Removendo...', 'success');
+            
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'delete', rowIndex: rowIndex })
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    showToast('Convidado removido com sucesso.', 'success');
+                    loadAdminData(); // Atualiza a tabela com a nova base
+                } else {
+                    showToast(result.message || 'Erro ao remover.', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Falha na comunicação ao tentar remover.', 'error');
+            }
+        }
+
+    </script>
+</body>
+</html>
