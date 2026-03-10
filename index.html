@@ -87,7 +87,7 @@
         }
     </style>
 </head>
-<body class="text-gray-800 antialiased min-h-screen flex flex-col">
+<body class="text-gray-800 antialiased min-h-screen flex flex-col relative overflow-x-hidden">
 
     <!-- Navbar -->
     <nav class="bg-white shadow-sm py-4 px-6 sticky top-0 z-40">
@@ -101,14 +101,15 @@
     </nav>
 
     <!-- VIEWS CONTAINER -->
-    <div id="app" class="flex-grow flex flex-col">
+    <div id="app" class="flex-grow flex flex-col relative">
         
         <!-- ==================== LANDING PAGE VIEW ==================== -->
         <main id="view-home" class="flex-grow flex flex-col items-center p-6 max-w-lg mx-auto w-full fade-in">
             
-            <!-- Ilustração Placeholder -->
-            <div>
-                <img src="img/bunny_nobg.png">
+            <!-- Ilustração Principal -->
+            <div class="w-full flex justify-center items-center mb-8 mt-4">
+                <!-- Substitua o link do 'src' abaixo pelo caminho ou arquivo da sua imagem .png -->
+                <img src="img/bunny_nobg.png" alt="Ilustração Chá da Lorena" class="max-w-full h-auto max-h-64 object-contain">
             </div>
 
             <div class="text-center w-full">
@@ -119,20 +120,19 @@
                     Estamos muito felizes em compartilhar esse momento tão especial com você! Junte-se a nós para celebrar a chegada da nossa pequena.
                 </p>
 
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8 w-full">
-                    <div class="flex items-center justify-center gap-3 mb-4">
-                        <i data-lucide="calendar" class="text-baby-lilac-dark"></i>
-                        <span class="font-bold">Sábado, 18 de Abril</span>
-                    </div>
-                    <div class="flex items-center justify-center gap-3 mb-4">
-                        <i data-lucide="clock" class="text-baby-lilac-dark"></i>
-                        <span class="font-bold">A partir das 16h</span>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8 w-full flex flex-col gap-4">
+                    <div class="flex items-center justify-center gap-3">
+                        <i data-lucide="calendar" class="text-baby-lilac-dark flex-shrink-0"></i>
+                        <span class="font-bold text-left">Sábado, 18 de Abril</span>
                     </div>
                     <div class="flex items-center justify-center gap-3">
-                        <i data-lucide="map-pin" class="text-baby-lilac-dark"></i>
-                        <span class="font-bold">Praça Marisa Marques, 82</span>
+                        <i data-lucide="clock" class="text-baby-lilac-dark flex-shrink-0"></i>
+                        <span class="font-bold text-left">Às 16hrs</span>
                     </div>
-                    <p>Salão de Festas Condomínio Arcanjos</p>
+                    <div class="flex items-center justify-center gap-3">
+                        <i data-lucide="map-pin" class="text-baby-lilac-dark flex-shrink-0"></i>
+                        <span class="font-bold text-center leading-tight">Praça Marisa Marques, 82<br><span class="text-sm font-normal text-gray-500">Salão de Festas Condomínio Arcanjos</span></span>
+                    </div>
                 </div>
 
                 <button onclick="openModal()" class="w-full bg-baby-lilac-dark text-white font-bold text-lg py-4 rounded-full shadow-lg hover:bg-purple-500 transition-colors transform hover:scale-[1.02] active:scale-95 duration-200">
@@ -144,8 +144,29 @@
             <button onclick="promptAdmin()" class="mt-12 text-xs text-gray-300 hover:text-gray-400">Acesso Admin</button>
         </main>
 
+        <!-- ==================== TELA DE SUCESSO ==================== -->
+        <main id="view-success" class="hidden absolute inset-0 z-50 bg-baby-lilac-dark flex-col items-center justify-center p-6 w-full min-h-screen fade-in">
+            <div class="bg-white p-8 rounded-3xl shadow-2xl max-w-sm w-full text-center flex flex-col items-center slide-up">
+                <div class="w-20 h-20 bg-baby-lilac rounded-full flex items-center justify-center mb-6">
+                    <i data-lucide="check" class="w-10 h-10 text-baby-lilac-dark"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Que alegria!</h2>
+                <p class="text-gray-600 mb-8 leading-relaxed">
+                    Sua presença foi confirmada com sucesso. Muito obrigado por fazer parte desse momento tão especial para nossa família!
+                </p>
+                <button onclick="closeSuccessView()" class="w-full bg-baby-yellow text-gray-800 font-bold text-lg py-4 rounded-xl shadow-md hover:bg-baby-yellow-dark transition-colors">
+                    Voltar ao Início
+                </button>
+            </div>
+            
+            <!-- Confetes decorativos simples -->
+            <i data-lucide="star" class="absolute top-20 left-10 text-baby-yellow w-8 h-8 opacity-60"></i>
+            <i data-lucide="heart" class="absolute bottom-32 right-12 text-white w-10 h-10 opacity-40"></i>
+            <i data-lucide="star" class="absolute top-40 right-16 text-baby-lilac w-6 h-6 opacity-80"></i>
+        </main>
+
         <!-- ==================== ADMIN VIEW ==================== -->
-        <main id="view-admin" class="hidden flex-grow flex-col items-center p-6 max-w-4xl mx-auto w-full fade-in">
+        <main id="view-admin" class="hidden flex-grow flex-col items-center p-6 max-w-5xl mx-auto w-full fade-in">
             <div class="w-full flex justify-between items-center mb-8 mt-4">
                 <h2 class="text-2xl font-bold text-gray-800">Painel de Controle</h2>
                 <button onclick="navigate('home')" class="text-baby-lilac-dark font-bold hover:underline flex items-center gap-2">
@@ -153,16 +174,16 @@
                 </button>
             </div>
 
-            <!-- Resumo de Convidados (NOVO) -->
+            <!-- Resumo de Convidados -->
             <div class="w-full bg-white p-6 rounded-2xl shadow-sm border border-baby-lilac mb-6 flex flex-col items-center">
                 <h3 class="text-lg font-bold text-gray-700 mb-2 text-center">Total de Pessoas Confirmadas</h3>
                 <p class="text-5xl font-black text-baby-lilac-dark" id="admin-total-pessoas">-</p>
-                <p class="text-xs text-gray-500 mt-2 font-bold uppercase tracking-wider">Convidados + Acompanhantes</p>
+                <p class="text-xs text-gray-500 mt-2 font-bold uppercase tracking-wider text-center">Convidados Principais + Acompanhantes</p>
             </div>
 
             <!-- Resumo de Fraldas -->
             <div class="w-full bg-white p-6 rounded-2xl shadow-sm border border-baby-lilac mb-8">
-                <h3 class="text-lg font-bold text-gray-700 mb-4 text-center">Resumo de Fraldas</h3>
+                <h3 class="text-lg font-bold text-gray-700 mb-4 text-center">Resumo de Fraldas (Por Família/Grupo)</h3>
                 <div class="grid grid-cols-5 gap-2 sm:gap-4" id="admin-summary">
                     <!-- Preenchido via JS -->
                     <div class="col-span-5 text-center text-gray-500 py-4"><span class="loader"></span> Carregando resumo...</div>
@@ -172,14 +193,14 @@
             <!-- Tabela de Convidados -->
             <div class="w-full bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse min-w-[600px]">
+                    <table class="w-full text-left border-collapse min-w-[700px]">
                         <thead>
                             <tr class="bg-baby-yellow text-gray-700">
-                                <th class="p-4 font-bold border-b border-yellow-200">Data da Confirmação</th>
-                                <th class="p-4 font-bold border-b border-yellow-200">Nome Completo</th>
-                                <th class="p-4 font-bold border-b border-yellow-200 text-center">Nascimento</th>
-                                <th class="p-4 font-bold border-b border-yellow-200 text-center">Tamanho</th>
-                                <th class="p-4 font-bold border-b border-yellow-200 text-center">Acompanhantes</th>
+                                <th class="p-4 font-bold border-b border-yellow-200">Data</th>
+                                <th class="p-4 font-bold border-b border-yellow-200">Família / Convidado Principal</th>
+                                <th class="p-4 font-bold border-b border-yellow-200">Acompanhantes</th>
+                                <th class="p-4 font-bold border-b border-yellow-200 text-center">Fralda</th>
+                                <th class="p-4 font-bold border-b border-yellow-200 text-center">ID Grupo</th>
                                 <th class="p-4 font-bold border-b border-yellow-200 text-center">Ações</th>
                             </tr>
                         </thead>
@@ -211,51 +232,32 @@
             
             <!-- Aviso Superior -->
             <div class="bg-baby-lilac/40 px-6 py-3 border-b border-baby-lilac text-sm text-gray-700 text-center flex items-center justify-center gap-2">
-                <i data-lucide="info" class="w-4 h-4 text-baby-lilac-dark"></i>
-                <span>Confirme <b>apenas a sua presença</b>, representando seu/sua(s) acompanhante(s). O salão suporta um número limitado de pessoas, por favor não considerar ninguém além dos nomes que mencionamos no WhatsApp.</span>
+                <i data-lucide="info" class="w-4 h-4 text-baby-lilac-dark flex-shrink-0"></i>
+                <span>Por favor, inclua abaixo também os seus acompanhantes.</span>
             </div>
 
             <!-- Formulário -->
             <form id="rsvp-form" class="p-6 overflow-y-auto no-scrollbar" onsubmit="submitForm(event)">
                 
-                <div class="grid grid-cols-2 gap-4 mb-5">
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-1">Nome</label>
-                        <input type="text" id="nome" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-baby-lilac-dark focus:border-transparent transition-all">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-1">Sobrenome</label>
-                        <input type="text" id="sobrenome" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-baby-lilac-dark focus:border-transparent transition-all">
-                    </div>
+                <div class="mb-5">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Seu Nome Completo</label>
+                    <input type="text" id="nome-completo" required placeholder="Ex: Maria Silva" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-baby-lilac-dark focus:border-transparent transition-all">
                 </div>
 
-                <div class="mb-6">
-                    <label class="block text-sm font-bold text-gray-700 mb-1">Aniversário (Dia e Mês)</label>
-                    <div class="flex gap-4">
-                        <select id="dia" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-baby-lilac-dark bg-white appearance-none">
-                            <option value="" disabled selected>Dia</option>
-                            <!-- Populado via JS -->
-                        </select>
-                        <select id="mes" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-baby-lilac-dark bg-white appearance-none">
-                            <option value="" disabled selected>Mês</option>
-                            <option value="01">Janeiro</option>
-                            <option value="02">Fevereiro</option>
-                            <option value="03">Março</option>
-                            <option value="04">Abril</option>
-                            <option value="05">Maio</option>
-                            <option value="06">Junho</option>
-                            <option value="07">Julho</option>
-                            <option value="08">Agosto</option>
-                            <option value="09">Setembro</option>
-                            <option value="10">Outubro</option>
-                            <option value="11">Novembro</option>
-                            <option value="12">Dezembro</option>
-                        </select>
+                <div class="mb-6 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                    <label class="block text-sm font-bold text-gray-700 mb-3">Acompanhantes <span class="text-xs font-normal text-gray-500">(Opcional)</span></label>
+                    
+                    <div id="acompanhantes-container" class="space-y-3 mb-3">
+                        <!-- Inputs dinâmicos entram aqui -->
                     </div>
+                    
+                    <button type="button" onclick="addAcompanhante()" class="text-sm font-bold text-baby-lilac-dark flex items-center gap-1 hover:text-purple-600 transition-colors">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i> Adicionar acompanhante
+                    </button>
                 </div>
 
                 <div class="mb-8">
-                    <label class="block text-sm font-bold text-gray-700 mb-3 text-center">Tamanho da fralda a ser presenteada</label>
+                    <label class="block text-sm font-bold text-gray-700 mb-3 text-center">Tamanho da fralda da família</label>
                     <div class="flex justify-between gap-2">
                         <!-- Botões de tamanho -->
                         <button type="button" onclick="selectSize('RN')" id="btn-size-RN" class="size-btn flex-1 aspect-square rounded-xl border-2 border-gray-200 flex items-center justify-center font-bold text-gray-500 hover:border-baby-lilac-dark hover:text-baby-lilac-dark transition-colors">RN</button>
@@ -265,7 +267,7 @@
                         <button type="button" onclick="selectSize('GG')" id="btn-size-GG" class="size-btn flex-1 aspect-square rounded-xl border-2 border-gray-200 flex items-center justify-center font-bold text-gray-500 hover:border-baby-lilac-dark hover:text-baby-lilac-dark transition-colors">GG</button>
                     </div>
                     <input type="hidden" id="tamanho_selecionado" required>
-                    <p id="size-error" class="text-red-500 text-xs text-center mt-2 hidden">Por favor, selecione um tamanho.</p>
+                    <p id="size-error" class="text-red-500 text-xs text-center mt-2 hidden">Por favor, selecione um tamanho de fralda.</p>
                 </div>
 
                 <button type="submit" id="submit-btn" class="w-full bg-baby-lilac-dark text-white font-bold text-lg py-4 rounded-xl shadow-md hover:bg-purple-500 transition-colors flex justify-center items-center">
@@ -300,7 +302,7 @@
                 <h3 class="font-bold text-lg text-red-800">Confirmar Exclusão</h3>
             </div>
             <div class="p-6">
-                <p class="text-gray-700 mb-6">Tem certeza que deseja remover esta confirmação de presença? Esta ação não pode ser desfeita.</p>
+                <p class="text-gray-700 mb-6">Tem certeza que deseja remover a confirmação desta família? Esta ação não pode ser desfeita.</p>
                 <div class="flex gap-3">
                     <button onclick="closeDeleteModal()" class="flex-1 bg-gray-100 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-200 transition-colors">Cancelar</button>
                     <button onclick="confirmDeleteUser()" class="flex-1 bg-red-500 text-white font-bold py-3 rounded-xl shadow hover:bg-red-600 transition-colors">Remover</button>
@@ -319,7 +321,7 @@
         lucide.createIcons();
 
         // COLOQUE A URL DO SEU GOOGLE APPS SCRIPT AQUI APÓS PUBLICAR
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxoRZofmVbalMkZ2nGrpvHTWQEqNzYZ1LhxqS14E6ln1-lqwu8wsMRFZIfFW0T0QYg7gw/exec';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby-NdOOU57Z1hyHvWOhNw9O6kyoUrW0YDTTUVUjv7jK8-pJgPMx-6NgPlrEGGWUfbnTlw/exec';
 
         // --- LÓGICA DE NAVEGAÇÃO E AUTENTICAÇÃO ---
         let isAdminAuthenticated = false;
@@ -350,7 +352,7 @@
 
         function checkAdminPassword() {
             const pwd = document.getElementById('admin-password').value;
-            // Senha ofuscada: array de charCodes deslocados + 5 (Esconde a senha real do código fonte)
+            // Senha ofuscada para H4nnahM0nt@na
             const secret = [77, 57, 115, 115, 102, 109, 82, 53, 115, 121, 69, 115, 102];
             const isMatch = pwd.length === secret.length && pwd.split('').every((c, i) => c.charCodeAt(0) + 5 === secret[i]);
 
@@ -377,15 +379,22 @@
                 return;
             }
 
+            // Oculta todas as views
             document.getElementById('view-home').classList.add('hidden');
             document.getElementById('view-home').classList.remove('flex');
             document.getElementById('view-admin').classList.add('hidden');
             document.getElementById('view-admin').classList.remove('flex');
+            document.getElementById('view-success').classList.add('hidden');
+            document.getElementById('view-success').classList.remove('flex');
 
+            // Mostra a view correta
             if (hash === 'admin') {
                 document.getElementById('view-admin').classList.remove('hidden');
                 document.getElementById('view-admin').classList.add('flex');
                 loadAdminData();
+            } else if (hash === 'success') {
+                document.getElementById('view-success').classList.remove('hidden');
+                document.getElementById('view-success').classList.add('flex');
             } else {
                 document.getElementById('view-home').classList.remove('hidden');
                 document.getElementById('view-home').classList.add('flex');
@@ -394,8 +403,22 @@
         }
 
         window.addEventListener('hashchange', handleRoute);
-        // Executa ao carregar a página
         handleRoute();
+
+        // --- LÓGICA DE ACOMPANHANTES DINÂMICOS ---
+        function addAcompanhante() {
+            const container = document.getElementById('acompanhantes-container');
+            const div = document.createElement('div');
+            div.className = 'flex gap-2 items-center slide-up';
+            div.innerHTML = `
+                <input type="text" placeholder="Nome completo do acompanhante" class="acompanhante-input w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-baby-lilac-dark text-sm bg-white" required>
+                <button type="button" onclick="this.parentElement.remove()" class="text-red-400 hover:text-red-600 p-2 rounded-lg bg-red-50 hover:bg-red-100 transition-colors" title="Remover acompanhante">
+                    <i data-lucide="trash-2" class="w-5 h-5"></i>
+                </button>
+            `;
+            container.appendChild(div);
+            lucide.createIcons();
+        }
 
         // --- LÓGICA DO MODAL ---
         const modal = document.getElementById('rsvp-modal');
@@ -404,7 +427,6 @@
         function openModal() {
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            // Pequeno delay para a animação de entrada funcionar
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
                 modalContent.classList.remove('translate-y-full');
@@ -414,7 +436,6 @@
         function closeModal() {
             modal.classList.add('opacity-0');
             modalContent.classList.add('translate-y-full');
-            // Aguarda a animação terminar antes de esconder
             setTimeout(() => {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
@@ -422,20 +443,13 @@
             }, 300);
         }
 
-        // Fechar ao clicar fora
+        function closeSuccessView() {
+            navigate('home');
+        }
+
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeModal();
         });
-
-        // Popular dias no select
-        const diaSelect = document.getElementById('dia');
-        for (let i = 1; i <= 31; i++) {
-            let option = document.createElement('option');
-            let val = i < 10 ? '0' + i : i;
-            option.value = val;
-            option.textContent = val;
-            diaSelect.appendChild(option);
-        }
 
         // --- LÓGICA DE SELEÇÃO DE FRALDA ---
         let selectedSize = '';
@@ -444,19 +458,17 @@
             document.getElementById('tamanho_selecionado').value = size;
             document.getElementById('size-error').classList.add('hidden');
 
-            // Resetar estilos
             document.querySelectorAll('.size-btn').forEach(btn => {
                 btn.classList.remove('bg-baby-lilac-dark', 'text-white', 'border-baby-lilac-dark');
                 btn.classList.add('border-gray-200', 'text-gray-500');
             });
 
-            // Aplicar estilo ao selecionado
             const activeBtn = document.getElementById(`btn-size-${size}`);
             activeBtn.classList.remove('border-gray-200', 'text-gray-500');
             activeBtn.classList.add('bg-baby-lilac-dark', 'text-white', 'border-baby-lilac-dark');
         }
 
-        // --- SISTEMA DE TOAST (NOTIFICAÇÃO) ---
+        // --- SISTEMA DE TOAST ---
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -468,19 +480,17 @@
 
             toast.className = `flex items-center p-4 mb-2 rounded-2xl shadow-lg border ${bgColor} ${borderColor} ${textColor} transform transition-all duration-300 translate-y-[-100%] opacity-0 pointer-events-auto`;
             toast.innerHTML = `
-                <i data-lucide="${icon}" class="w-5 h-5 mr-3"></i>
+                <i data-lucide="${icon}" class="w-5 h-5 mr-3 flex-shrink-0"></i>
                 <span class="font-bold text-sm">${message}</span>
             `;
 
             container.appendChild(toast);
             lucide.createIcons();
 
-            // Animar entrada
             requestAnimationFrame(() => {
                 toast.classList.remove('translate-y-[-100%]', 'opacity-0');
             });
 
-            // Remover após 4 segundos
             setTimeout(() => {
                 toast.classList.add('opacity-0', 'scale-95');
                 setTimeout(() => toast.remove(), 300);
@@ -490,6 +500,7 @@
         // --- SUBMISSÃO DO FORMULÁRIO ---
         function resetForm() {
             document.getElementById('rsvp-form').reset();
+            document.getElementById('acompanhantes-container').innerHTML = '';
             selectedSize = '';
             document.getElementById('tamanho_selecionado').value = '';
             document.querySelectorAll('.size-btn').forEach(btn => {
@@ -497,6 +508,10 @@
                 btn.classList.add('border-gray-200', 'text-gray-500');
             });
             document.getElementById('size-error').classList.add('hidden');
+        }
+
+        function generateId() {
+            return Math.random().toString(36).substring(2, 9).toUpperCase();
         }
 
         async function submitForm(e) {
@@ -518,29 +533,34 @@
             btn.disabled = true;
             btn.classList.add('opacity-75');
 
+            // Coletar acompanhantes e filtrar vazios
+            const acompanhantesInputs = document.querySelectorAll('.acompanhante-input');
+            const acompanhantesArray = Array.from(acompanhantesInputs)
+                                            .map(input => input.value.trim())
+                                            .filter(val => val !== '');
+
             const payload = {
-                nome: document.getElementById('nome').value.trim(),
-                sobrenome: document.getElementById('sobrenome').value.trim(),
-                dia: document.getElementById('dia').value,
-                mes: document.getElementById('mes').value,
-                tamanho: selectedSize
+                nomeCompleto: document.getElementById('nome-completo').value.trim(),
+                acompanhantes: acompanhantesArray.join('; '), // Enviando como texto separado por ;
+                tamanho: selectedSize,
+                idGrupo: generateId() // ID único para a família
             };
 
             try {
-                // Usando text/plain para evitar bloqueio de CORS (Preflight) no envio do Javascript para o Apps Script
                 const response = await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'text/plain;charset=utf-8',
-                    },
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(payload)
                 });
 
                 const result = await response.json();
 
                 if (result.status === 'success') {
-                    showToast('Presença confirmada com sucesso! Muito obrigado(a).', 'success');
                     closeModal();
+                    // Mostra a tela de sucesso
+                    setTimeout(() => {
+                        navigate('success');
+                    }, 300);
                 } else {
                     showToast(result.message || 'Erro ao confirmar presença.', 'error');
                 }
@@ -555,11 +575,6 @@
         }
 
         // --- LÓGICA DO ADMIN ---
-        const mesesNomes = {
-            "01": "Jan", "02": "Fev", "03": "Mar", "04": "Abr", "05": "Mai", "06": "Jun",
-            "07": "Jul", "08": "Ago", "09": "Set", "10": "Out", "11": "Nov", "12": "Dez"
-        };
-
         async function loadAdminData() {
             if (!APPS_SCRIPT_URL.startsWith('https://script.google.com/')) {
                 document.getElementById('admin-table-body').innerHTML = `<tr><td colspan="6" class="text-center text-red-500 py-8">Configure a URL do Apps Script primeiro.</td></tr>`;
@@ -597,35 +612,48 @@
             let htmlTable = '';
 
             data.forEach(row => {
-                // Considerando os cabeçalhos da planilha: 'Data', 'Nome', 'Sobrenome', 'Dia', 'Mês', 'Tamanho', 'Acompanhantes'
+                // Considerando os novos cabeçalhos: 'Data', 'Nome Completo', 'Acompanhantes', 'Tamanho', 'ID Grupo'
                 const tamanho = row['Tamanho'] || row['tamanho'];
                 if (counts[tamanho] !== undefined) {
                     counts[tamanho]++;
                 }
 
-                const acompanhantes = parseInt(row['Acompanhantes'] || 0, 10);
-                totalPessoas += 1 + acompanhantes; // 1 (Convidado) + qtd de Acompanhantes
+                const nomeCompleto = row['Nome Completo'] || '-';
+                const idGrupo = row['ID Grupo'] || '-';
+                
+                // Tratar lista de acompanhantes
+                const acompanhantesTexto = row['Acompanhantes'] || '';
+                let listaAcompanhantes = [];
+                if (acompanhantesTexto.trim() !== '') {
+                    listaAcompanhantes = acompanhantesTexto.split(';').map(a => a.trim()).filter(a => a !== '');
+                }
+                
+                totalPessoas += 1 + listaAcompanhantes.length; // 1 (Convidado) + qtd de Acompanhantes
 
                 const dataCompleta = new Date(row['Data'] || row['Carimbo de data/hora']);
                 const dataFormatada = isNaN(dataCompleta) ? '-' : dataCompleta.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute:'2-digit' });
                 
-                // Pegando a linha (rowIndex) para envio de remoção/atualização
                 const rowIndex = row['rowIndex'];
+
+                // Formatar a lista de acompanhantes para a tabela
+                let acompanhantesHTML = '<span class="text-gray-400 italic text-sm">Nenhum</span>';
+                if (listaAcompanhantes.length > 0) {
+                    acompanhantesHTML = `<ul class="list-disc list-inside text-sm text-gray-600">` + 
+                        listaAcompanhantes.map(nome => `<li>${nome}</li>`).join('') + 
+                        `</ul>`;
+                }
 
                 htmlTable += `
                     <tr class="hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0">
-                        <td class="p-4 text-sm text-gray-500 whitespace-nowrap">${dataFormatada}</td>
-                        <td class="p-4 font-bold text-gray-800 whitespace-nowrap">${row['Nome']} ${row['Sobrenome']}</td>
-                        <td class="p-4 text-center text-gray-600">${row['Dia']}/${mesesNomes[row['Mês']] || row['Mês']}</td>
-                        <td class="p-4 text-center">
+                        <td class="p-4 text-sm text-gray-500 whitespace-nowrap align-top">${dataFormatada}</td>
+                        <td class="p-4 font-bold text-gray-800 align-top">${nomeCompleto}</td>
+                        <td class="p-4 align-top">${acompanhantesHTML}</td>
+                        <td class="p-4 text-center align-top">
                             <span class="inline-block bg-baby-lilac text-baby-lilac-dark font-bold px-3 py-1 rounded-lg text-sm">${tamanho}</span>
                         </td>
-                        <td class="p-4 text-center">
-                            <input type="number" min="0" value="${acompanhantes}" onchange="updateCompanions(${rowIndex}, this.value)" 
-                                   class="w-16 border border-gray-300 rounded-lg px-2 py-1 text-center font-bold focus:outline-none focus:ring-2 focus:ring-baby-lilac-dark bg-white" title="Número de acompanhantes">
-                        </td>
-                        <td class="p-4 text-center">
-                            <button onclick="promptDelete(${rowIndex})" class="text-red-400 hover:text-red-600 transition-colors bg-red-50 hover:bg-red-100 p-2 rounded-lg" title="Remover convidado">
+                        <td class="p-4 text-center text-xs text-gray-400 font-mono align-top">${idGrupo}</td>
+                        <td class="p-4 text-center align-top">
+                            <button onclick="promptDelete(${rowIndex})" class="text-red-400 hover:text-red-600 transition-colors bg-red-50 hover:bg-red-100 p-2 rounded-lg" title="Remover Família">
                                 <i data-lucide="trash-2" class="w-4 h-4"></i>
                             </button>
                         </td>
@@ -634,12 +662,10 @@
             });
 
             tableBody.innerHTML = htmlTable;
-            lucide.createIcons(); // Recarrega os ícones para os botões recém inseridos
+            lucide.createIcons();
 
-            // Renderizar Total de Pessoas
             totalPessoasContainer.innerText = totalPessoas;
 
-            // Renderizar Resumo Fraldas
             let htmlSummary = '';
             const sizes = ['RN', 'P', 'M', 'G', 'GG'];
             sizes.forEach(size => {
@@ -654,42 +680,12 @@
             summaryContainer.innerHTML = htmlSummary;
         }
 
-        // --- LÓGICA DE ATUALIZAR ACOMPANHANTES ---
-        async function updateCompanions(rowIndex, count) {
-            if (!rowIndex) return;
-
-            // Altera valor vazio para 0
-            if (count === '') count = 0;
-
-            showToast('Atualizando acompanhantes...', 'success');
-            
-            try {
-                const response = await fetch(APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: 'update_companions', rowIndex: rowIndex, count: parseInt(count, 10) })
-                });
-
-                const result = await response.json();
-
-                if (result.status === 'success') {
-                    // Atualiza a tabela silenciosamente para recalcular os totais
-                    loadAdminData(); 
-                } else {
-                    showToast(result.message || 'Erro ao atualizar.', 'error');
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                showToast('Falha na comunicação ao atualizar.', 'error');
-            }
-        }
-
         // --- LÓGICA DE REMOVER USUÁRIO ---
         let rowToDelete = null;
 
         function promptDelete(rowIndex) {
             if (!rowIndex) {
-                showToast("Erro: Linha não identificada. Verifique seu Apps Script.", "error");
+                showToast("Erro: Linha não identificada.", "error");
                 return;
             }
             rowToDelete = rowIndex;
@@ -732,8 +728,8 @@
                 const result = await response.json();
 
                 if (result.status === 'success') {
-                    showToast('Convidado removido com sucesso.', 'success');
-                    loadAdminData(); // Atualiza a tabela com a nova base
+                    showToast('Grupo removido com sucesso.', 'success');
+                    loadAdminData(); 
                 } else {
                     showToast(result.message || 'Erro ao remover.', 'error');
                 }
